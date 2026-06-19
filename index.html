@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apna Kirana Mart</title>
+    <!-- Google Fonts for Typography matching the reference -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* CSS Variables for Color Palette */
+        :root {
+            --bg-light: #FCFAF2;
+            --text-dark: #3C2317;
+            --btn-color: #A66542;
+            --btn-hover: #8B5233;
+            --cart-bg: #3E2723;
+            --white: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* --- INTRO ANIMATION (SPLASH SCREEN) --- */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: var(--text-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            animation: slideUpFade 1s ease-in-out 2.5s forwards;
+        }
+
+        .splash-text {
+            color: var(--white);
+            font-size: 3rem;
+            text-align: center;
+            opacity: 0;
+            animation: fadeInOut 2.5s ease-in-out forwards;
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: scale(0.9); }
+            30% { opacity: 1; transform: scale(1); }
+            80% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(1.1); }
+        }
+
+        @keyframes slideUpFade {
+            to { transform: translateY(-100%); visibility: hidden; }
+        }
+
+        /* --- HEADER & NAVIGATION --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background-color: var(--bg-light);
+            border-bottom: 2px solid #EBE4D5;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+            color: var(--btn-color);
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-dark);
+            margin: 0 15px;
+            font-weight: 500;
+        }
+
+        .cart-icon-container {
+            position: relative;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .cart-icon-container i {
+            font-size: 1.5rem;
+            color: var(--btn-color);
+        }
+        
+        .cart-details {
+            font-size: 0.8rem;
+            display: block;
+            margin-top: 2px;
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: 0px;
+            background: var(--btn-color);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 60vh;
+            background: linear-gradient(rgba(60, 35, 23, 0.7), rgba(60, 35, 23, 0.7)), url('https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80') center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--white);
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            border-bottom: 2px solid var(--white);
+            padding-bottom: 10px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-top: 10px;
+            max-width: 600px;
+        }
+
+        .btn {
+            background-color: var(--btn-color);
+            color: var(--white);
+            border: none;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+
+        .btn:hover { background-color: var(--btn-hover); }
+
+        /* --- PRODUCTS SECTION --- */
+        .products-section {
+            padding: 50px 5%;
+            text-align: center;
+        }
+
+        .products-section h2 {
+            font-size: 2.5rem;
+            color: var(--text-dark);
+            margin-bottom: 30px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background: var(--white);
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        .product-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+
+        .product-card p {
+            font-size: 1rem;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+        }
+
+        /* --- CART SECTION --- */
+        .cart-section {
+            background-color: var(--cart-bg);
+            color: var(--white);
+            padding: 40px 5%;
+        }
+
+        .cart-section h2 {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            color: var(--white);
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding: 15px 0;
+        }
+
+        .cart-item-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .cart-item-left img {
+            width: 50px;
+            height: 50px;
+            border-radius: 5px;
+            object-fit: cover;
+        }
+
+        .cart-total-container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-top: 20px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            gap: 20px;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            max-width: 300px;
+            display: block;
+            margin: 30px auto 0;
+            padding: 15px;
+            font-size: 1.2rem;
+            background: linear-gradient(180deg, #A66542 0%, #7d4428 100%);
+            border: 1px solid #c2886a;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: var(--bg-light);
+            padding: 40px 5%;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            text-align: center;
+            gap: 20px;
+        }
+
+        .footer-col i {
+            font-size: 1.5rem;
+            color: var(--btn-color);
+            margin-bottom: 10px;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            nav { display: none; } /* Hide nav links on mobile for cleaner look */
+            .hero h1 { font-size: 2.5rem; }
+            .hero p { font-size: 1rem; }
+            .grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .product-card h3 { font-size: 0.9rem; }
+            .product-card img { height: 120px; }
+            .cart-item { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .cart-item-right { width: 100%; display: flex; justify-content: space-between; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Intro Splash Screen -->
+    <div id="splash-screen">
+        <div class="splash-text">
+            <h1 style="color: #A66542;">Apna Kirana Mart</h1>
+            <p style="font-family: 'Inter', sans-serif; font-size: 1.2rem; margin-top:10px;">Premium Groceries. Delivered.</p>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <i class="fas fa-wheat-awn"></i> Apna Kirana
+        </div>
+        <nav>
+            <a href="#">Home</a> | 
+            <a href="#products">Categories</a> | 
+            <a href="#cart">Cart</a> | 
+            <a href="#contact">Contact</a>
+        </nav>
+        <div class="cart-icon-container" onclick="document.getElementById('cart').scrollIntoView({behavior: 'smooth'})">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-badge" id="cart-count">0</span>
+            <span class="cart-details"><span id="cart-items-text">0 items</span> (₹<span id="cart-total-text">0</span>)</span>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Good Morning,<br>Welcome to Apna Kirana</h1>
+        <p>Premium spices, daily pulses, and branded household essentials packed fresh with love.</p>
+        <a href="#products" class="btn">Explore Our Items</a>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products-section" id="products">
+        <h2>Our Bestsellers</h2>
+        <div class="grid" id="product-grid">
+            <!-- Products will be injected here via JavaScript -->
+        </div>
+    </section>
+
+    <!-- Cart Section -->
+    <section class="cart-section" id="cart">
+        <h2>Your Shopping Bag</h2>
+        <div id="cart-container">
+            <p style="text-align:center;">Your cart is empty.</p>
+        </div>
+        <div class="cart-total-container" style="display:none;" id="total-container">
+            <span>Total:</span>
+            <span id="final-total">₹0.00</span>
+        </div>
+        <button class="btn checkout-btn" style="display:none;" id="checkout-btn" onclick="checkout()">Checkout via WhatsApp</button>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div style="width:100%; text-align:center; margin-bottom: 20px;">
+            <h2 style="color: var(--text-dark);">Contact Us</h2>
+        </div>
+        <div class="footer-col">
+            <i class="fas fa-map-marker-alt"></i>
+            <p>Shop No. 42, Main Market<br>Model Town, Delhi 110009</p>
+        </div>
+        <div class="footer-col">
+            <i class="fas fa-envelope"></i>
+            <p>orders@apnakiranamart.com</p>
+        </div>
+        <div class="footer-col">
+            <i class="fas fa-phone"></i>
+            <p>+91 98765 43210</p>
+        </div>
+        <div class="footer-col">
+            <i class="fab fa-instagram" style="font-size: 1.8rem; margin-right:10px;"></i>
+            <i class="fab fa-facebook" style="font-size: 1.8rem;"></i>
+        </div>
+        <div style="width: 100%; text-align: center; margin-top: 20px; font-size: 0.8rem; border-top: 1px solid #ddd; padding-top: 10px;">
+            © Copyright 2024 Apna Kirana Mart. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // Store Number for WhatsApp Orders (Replace with actual number, format: CountryCode+Number without '+')
+        const WHATSAPP_NUMBER = "919876543210"; 
+
+        // 40 Grocery Items (No vegetables, only parchun/kirana stuff)
+        const productsList = [
+            { id: 1, name: "Aashirvaad Atta (5kg)", price: 210, img: "https://placehold.co/300x200/eee/A66542?text=Atta" },
+            { id: 2, name: "India Gate Basmati Rice (1kg)", price: 150, img: "https://placehold.co/300x200/eee/A66542?text=Basmati+Rice" },
+            { id: 3, name: "Toor Dal Premium (1kg)", price: 160, img: "https://placehold.co/300x200/eee/A66542?text=Toor+Dal" },
+            { id: 4, name: "Chana Dal (1kg)", price: 90, img: "https://placehold.co/300x200/eee/A66542?text=Chana+Dal" },
+            { id: 5, name: "Moong Dal Washed (1kg)", price: 110, img: "https://placehold.co/300x200/eee/A66542?text=Moong+Dal" },
+            { id: 6, name: "Tata Salt (1kg)", price: 25, img: "https://placehold.co/300x200/eee/A66542?text=Tata+Salt" },
+            { id: 7, name: "MDH Garam Masala (100g)", price: 82, img: "https://placehold.co/300x200/eee/A66542?text=Garam+Masala" },
+            { id: 8, name: "Everest Haldi Powder (200g)", price: 55, img: "https://placehold.co/300x200/eee/A66542?text=Haldi+Powder" },
+            { id: 9, name: "Kashmiri Lal Mirch (100g)", price: 75, img: "https://placehold.co/300x200/eee/A66542?text=Lal+Mirch" },
+            { id: 10, name: "Dhaniya Powder (200g)", price: 60, img: "https://placehold.co/300x200/eee/A66542?text=Dhaniya+Powder" },
+            { id: 11, name: "Fortune Sunflower Oil (1L)", price: 140, img: "https://placehold.co/300x200/eee/A66542?text=Refined+Oil" },
+            { id: 12, name: "Amul Pure Ghee (500ml)", price: 290, img: "https://placehold.co/300x200/eee/A66542?text=Amul+Ghee" },
+            { id: 13, name: "Maggi 2-Min Noodles (Pack of 4)", price: 56, img: "https://placehold.co/300x200/eee/A66542?text=Maggi" },
+            { id: 14, name: "Tata Tea Gold (500g)", price: 260, img: "https://placehold.co/300x200/eee/A66542?text=Tata+Tea" },
+            { id: 15, name: "Nescafe Classic Coffee (50g)", price: 160, img: "https://placehold.co/300x200/eee/A66542?text=Coffee" },
+            { id: 16, name: "Madhur Sugar (1kg)", price: 50, img: "https://placehold.co/300x200/eee/A66542?text=Sugar" },
+            { id: 17, name: "Britannia Good Day (100g)", price: 20, img: "https://placehold.co/300x200/eee/A66542?text=Good+Day" },
+            { id: 18, name: "Parle-G Biscuits (250g)", price: 25, img: "https://placehold.co/300x200/eee/A66542?text=Parle-G" },
+            { id: 19, name: "Lays Classic Salted (50g)", price: 20, img: "https://placehold.co/300x200/eee/A66542?text=Lays" },
+            { id: 20, name: "Haldiram Bhujia (400g)", price: 105, img: "https://placehold.co/300x200/eee/A66542?text=Bhujia" },
+            { id: 21, name: "Kissan Tomato Ketchup (500g)", price: 120, img: "https://placehold.co/300x200/eee/A66542?text=Ketchup" },
+            { id: 22, name: "Surf Excel Matic (1kg)", price: 210, img: "https://placehold.co/300x200/eee/A66542?text=Surf+Excel" },
+            { id: 23, name: "Tide Washing Powder (1kg)", price: 110, img: "https://placehold.co/300x200/eee/A66542?text=Tide" },
+            { id: 24, name: "Vim Dishwash Liquid (500ml)", price: 105, img: "https://placehold.co/300x200/eee/A66542?text=Vim+Liquid" },
+            { id: 25, name: "Dettol Liquid Handwash (200ml)", price: 99, img: "https://placehold.co/300x200/eee/A66542?text=Handwash" },
+            { id: 26, name: "Dove Soap (Pack of 3)", price: 165, img: "https://placehold.co/300x200/eee/A66542?text=Dove+Soap" },
+            { id: 27, name: "Colgate MaxFresh (150g)", price: 115, img: "https://placehold.co/300x200/eee/A66542?text=Colgate" },
+            { id: 28, name: "Clinic Plus Shampoo (340ml)", price: 180, img: "https://placehold.co/300x200/eee/A66542?text=Shampoo" },
+            { id: 29, name: "Parachute Coconut Oil (250ml)", price: 110, img: "https://placehold.co/300x200/eee/A66542?text=Coconut+Oil" },
+            { id: 30, name: "Harpic Toilet Cleaner (500ml)", price: 93, img: "https://placehold.co/300x200/eee/A66542?text=Harpic" },
+            { id: 31, name: "Colin Glass Cleaner (500ml)", price: 95, img: "https://placehold.co/300x200/eee/A66542?text=Colin" },
+            { id: 32, name: "Mortein Mosquito Repellent", price: 85, img: "https://placehold.co/300x200/eee/A66542?text=Mosquito+Liquid" },
+            { id: 33, name: "Odonil Room Freshener", price: 55, img: "https://placehold.co/300x200/eee/A66542?text=Room+Freshener" },
+            { id: 34, name: "Whisper Ultra Clean (XL)", price: 120, img: "https://placehold.co/300x200/eee/A66542?text=Pads" },
+            { id: 35, name: "Pampers Diapers (Large)", price: 499, img: "https://placehold.co/300x200/eee/A66542?text=Diapers" },
+            { id: 36, name: "Cadbury Dairy Milk Silk", price: 80, img: "https://placehold.co/300x200/eee/A66542?text=Dairy+Milk" },
+            { id: 37, name: "Nutella Hazelnut Spread (350g)", price: 350, img: "https://placehold.co/300x200/eee/A66542?text=Nutella" },
+            { id: 38, name: "Pintola Peanut Butter (500g)", price: 160, img: "https://placehold.co/300x200/eee/A66542?text=Peanut+Butter" },
+            { id: 39, name: "Nutrela Soya Chunks (200g)", price: 55, img: "https://placehold.co/300x200/eee/A66542?text=Soya+Chunks" },
+            { id: 40, name: "Rajdhani Besan (500g)", price: 65, img: "https://placehold.co/300x200/eee/A66542?text=Besan" }
+        ];
+
+        let cart = [];
+
+        // Render Products
+        const productGrid = document.getElementById('product-grid');
+        productsList.forEach(product => {
+            productGrid.innerHTML += `
+                <div class="product-card">
+                    <img src="${product.img}" alt="${product.name}">
+                    <h3>${product.name}</h3>
+                    <p>₹${product.price.toFixed(2)}</p>
+                    <button class="btn" onclick="addToCart(${product.id})">Add to Cart</button>
+                </div>
+            `;
+        });
+
+        // Add to Cart Logic
+        function addToCart(id) {
+            const product = productsList.find(p => p.id === id);
+            const cartItem = cart.find(item => item.id === id);
+
+            if (cartItem) {
+                cartItem.quantity++;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+            updateCartUI();
+        }
+
+        // Update Cart UI
+        function updateCartUI() {
+            const cartContainer = document.getElementById('cart-container');
+            const totalContainer = document.getElementById('total-container');
+            const checkoutBtn = document.getElementById('checkout-btn');
+            
+            let totalItems = 0;
+            let totalPrice = 0;
+
+            if (cart.length === 0) {
+                cartContainer.innerHTML = '<p style="text-align:center;">Your cart is empty.</p>';
+                totalContainer.style.display = 'none';
+                checkoutBtn.style.display = 'none';
+            } else {
+                cartContainer.innerHTML = '';
+                cart.forEach((item, index) => {
+                    totalItems += item.quantity;
+                    totalPrice += item.price * item.quantity;
+
+                    cartContainer.innerHTML += `
+                        <div class="cart-item">
+                            <div class="cart-item-left">
+                                <img src="${item.img}" alt="${item.name}">
+                                <span>${item.name} (x${item.quantity})</span>
+                            </div>
+                            <div class="cart-item-right" style="display:flex; align-items:center; gap: 20px;">
+                                <span>x${item.quantity}</span>
+                                <span>₹${(item.price * item.quantity).toFixed(2)}</span>
+                                <button onclick="removeItem(${index})" style="background:transparent; border:none; color:#ff4d4d; cursor:pointer;"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                document.getElementById('final-total').innerText = `₹${totalPrice.toFixed(2)}`;
+                totalContainer.style.display = 'flex';
+                checkoutBtn.style.display = 'block';
+            }
+
+            // Update Header counts
+            document.getElementById('cart-count').innerText = totalItems;
+            document.getElementById('cart-items-text').innerText = `${totalItems} items`;
+            document.getElementById('cart-total-text').innerText = totalPrice.toFixed(2);
+        }
+
+        // Remove Item
+        function removeItem(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        // Checkout & WhatsApp Integration with Location
+        function checkout() {
+            if (cart.length === 0) {
+                alert("Cart is empty!");
+                return;
+            }
+
+            // Request Location
+            if (navigator.geolocation) {
+                checkoutBtn = document.getElementById('checkout-btn');
+                checkoutBtn.innerText = "Fetching Location...";
+                
+                navigator.geolocation.getCurrentPosition(
+                    (position) => { sendToWhatsApp(position.coords.latitude, position.coords.longitude); },
+                    (error) => { 
+                        alert("Could not fetch location. Proceeding without it."); 
+                        sendToWhatsApp(null, null); 
+                    }
+                );
+            } else {
+                sendToWhatsApp(null, null);
+            }
+        }
+
+        function sendToWhatsApp(lat, lng) {
+            document.getElementById('checkout-btn').innerText = "Checkout via WhatsApp";
+
+            let message = "Hello *Apna Kirana Mart*, I would like to place an order:%0A%0A";
+            let totalPrice = 0;
+
+            cart.forEach((item, index) => {
+                let itemTotal = item.price * item.quantity;
+                totalPrice += itemTotal;
+                message += `${index + 1}. ${item.name} - Qty: ${item.quantity} - ₹${itemTotal}%0A`;
+            });
+
+            message += `%0A*Total Amount: ₹${totalPrice}*%0A%0A`;
+
+            if (lat && lng) {
+                message += `*My Delivery Location:* https://maps.google.com/?q=${lat},${lng}`;
+            } else {
+                message += `*Note:* Please ask for my delivery address in chat.`;
+            }
+
+            const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`;
+            window.open(whatsappURL, '_blank');
+        }
+    </script>
+</body>
+</html>
